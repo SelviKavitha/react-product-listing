@@ -17,7 +17,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortOrder, setSortOrder] = useState('default');
 
-  // Add Item Handler (increments matching variant quantities cleanly)
+  // Add To Cart products
   const handleAddToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
@@ -30,32 +30,52 @@ export default function App() {
     });
   };
 
-  // Item Elimination Handler
+  // Remove Cart
+ 
   const handleRemoveFromCart = (id) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  // State Flushing Filter Cleaner Reset
+  //  Reset Filters
+
   const handleResetFilters = () => {
     setSearchTerm('');
     setSelectedCategory('all');
     setSortOrder('default');
   };
 
-  // Inline array calculations for filtering and sorting logic
+  //  Filter Category
+  // const filteredAndSortedProducts = products
+  //   .filter((product) => {
+  //     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+  //     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+  //     return matchesSearch && matchesCategory;
+  //   })
+  //   .sort((a, b) => {
+  //     if (sortOrder === 'price-low-high') return a.price - b.price;
+  //     if (sortOrder === 'price-high-low') return b.price - a.price;
+  //     if (sortOrder === 'name-a-z') return a.name.localeCompare(b.name);
+  //     if (sortOrder === 'name-z-a') return b.name.localeCompare(a.name);
+  //     return 0;
+  //   });
   const filteredAndSortedProducts = products
-    .filter((product) => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => {
-      if (sortOrder === 'price-low-high') return a.price - b.price;
-      if (sortOrder === 'price-high-low') return b.price - a.price;
-      if (sortOrder === 'name-a-z') return a.name.localeCompare(b.name);
-      if (sortOrder === 'name-z-a') return b.name.localeCompare(a.name);
-      return 0;
-    });
+  .filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // Convert both values to lowercase and trim spaces to ensure an exact textual match
+    const matchesCategory = 
+      selectedCategory === 'all' || 
+      product.category?.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
+      
+    return matchesSearch && matchesCategory;
+  })
+  .sort((a, b) => {
+    if (sortOrder === 'price-low-high') return a.price - b.price;
+    if (sortOrder === 'price-high-low') return b.price - a.price;
+    if (sortOrder === 'name-a-z') return a.name.localeCompare(b.name);
+    if (sortOrder === 'name-z-a') return b.name.localeCompare(a.name);
+    return 0;
+  });
 
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
@@ -64,7 +84,7 @@ export default function App() {
     <Navbar cartCount={cartCount} />
     
     <main className="main-content">
-      {/* THIS WRAPPER IS REQUIRED FOR THE GRID TO WORK */}
+     
       <div className="storefront-section"> 
         <div className="controls-panel">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />

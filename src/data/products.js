@@ -63,5 +63,13 @@ export const productsData = [
     category: "Fitness",
     image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?w=500",
     description: "Eco-friendly non-slip yoga mat with carrying strap."
-  }
+  },
+  {
+    id: 9,
+    name: "Classic Leather Wallet",
+    price: 39.99,
+    category: "Accessories",
+    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500",
+    description: "Handcrafted genuine leather wallet with multiple card slots and a slim profile."
+  },
 ];
